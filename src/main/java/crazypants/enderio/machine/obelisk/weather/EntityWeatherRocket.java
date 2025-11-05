@@ -53,13 +53,13 @@ public class EntityWeatherRocket extends EntityFireworkRocket {
     public void setDead() {
         super.setDead();
 
-        WeatherTask task = WeatherTask.values()[getDataWatcher().getWatchableObjectInt(DATA_ID)];
-        MinecraftServer server = MinecraftServer.getServer();
-
-        if (server != null && server.worldServers.length > 0) {
-            WorldServer worldserver = server.worldServers[0];
-            task.complete(worldserver);
+        // --- FIXED CODE ---
+        if (!worldObj.isRemote) {
+            WeatherTask task = WeatherTask.values()[getDataWatcher().getWatchableObjectInt(DATA_ID)];
+            // The task now completes in the world the entity is in (worldObj)
+            task.complete(worldObj); 
         }
+        // ------------------
     }
 
     @Override
